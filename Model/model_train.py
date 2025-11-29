@@ -6,7 +6,7 @@ import glob
 import os
 
 class SleepDataset(Dataset):
-    def __init__(self, directory="./processed"):
+    def __init__(self, directory="../processed"):
         self.files = glob.glob(os.path.join(directory, "*.npz"))
         self.X = []
         self.Y = []
@@ -32,7 +32,7 @@ class SleepDataset(Dataset):
 
 if __name__ == "__main__":
     # Create loader
-    train_ds = SleepDataset("./processed")
+    train_ds = SleepDataset("../processed")
     train_loader = DataLoader(train_ds, batch_size=32, shuffle=True)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
