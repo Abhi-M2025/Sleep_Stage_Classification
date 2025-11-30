@@ -25,9 +25,7 @@ with torch.no_grad():
     logits = model(X)
     preds = torch.argmax(logits, dim=1)
 
-# -------------------------
-# Accuracy
-# -------------------------
+
 accuracy = (preds.numpy() == y).mean()
 print("PREDICTIONS PER EPOCH:")
 print(preds.numpy())
@@ -37,9 +35,6 @@ print(y)
 
 print("\nAccuracy:", accuracy)
 
-# -------------------------
-# Confusion matrix and classification report
-# -------------------------
 from sklearn.metrics import confusion_matrix, classification_report
 
 cm = confusion_matrix(y, preds.numpy())

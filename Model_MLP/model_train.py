@@ -60,7 +60,7 @@ if __name__ == "__main__":
 
             optimizer.zero_grad()
             logits = model(X)
-            loss = criterion(logits, y)
+            loss = criterion(logits, y  )
             loss.backward()
             optimizer.step()
 
