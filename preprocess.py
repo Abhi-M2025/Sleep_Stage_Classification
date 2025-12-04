@@ -2,11 +2,12 @@ import mne
 import numpy as np
 import os
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
 
-DATA_DIR = "./"
-OUT_DIR = "./processed/"
-TEST_DIR = "./test_data"
-os.makedirs(OUT_DIR, exist_ok=True)
+DATA_DIR = "./raw/"
+TRAIN_DIR = "./processed_train_data/"
+TEST_DIR = "./processed_test_data/"
+os.makedirs(TRAIN_DIR, exist_ok=True)
 os.makedirs(TEST_DIR, exist_ok=True)
 
 # Map the sleep stage to a numerical output
@@ -113,13 +114,29 @@ def process_subject(sn, out_dir):
 
     print(f"{sn} saved:", X.shape, y.shape)
 
+def generate_subject_names(count):
+    return [f"SN{i:03d}" for i in range(1, count + 1)]
+
 
 if __name__ == "__main__":
-    subjects = ["SN001", "SN002", "SN003"]
-    process_subject("SN005", out_dir='./test_data')
-    for sn in subjects:
-        process_subject(sn, out_dir='./processed')
 
+    all_subjects = generate_subject_names(153)
+    train_subjects, test_subjects = train_test_split(
+        all_subjects,
+        test_size=0.3, 
+        random_state=42 
+    )
+    
+    print(f"train_subjects size: {len(train_subjects)}")
+    print(f"test_subjects size: {len(test_subjects)}")
+
+    print("start processing train_subjects")
+    for sn in train_subjects:
+        process_subject(sn, out_dir="./processed_train_data") 
+
+    print("start processing test_subjects")
+    for sn in test_subjects:
+        process_subject(sn, out_dir="./processed_test_data")
 
 def openFile(file):
     data = np.load("processed/" + file)

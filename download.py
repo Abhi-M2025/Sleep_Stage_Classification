@@ -2,7 +2,6 @@ import requests
 import os
 
 BASE = "https://physionet.org/files/hmc-sleep-staging/1.1/recordings"
-
 def download(url, output):
     print("Downloading:", output)
     r = requests.get(url, stream=True)
@@ -13,7 +12,7 @@ def download(url, output):
 
 os.makedirs("raw", exist_ok=True)
 
-for i in range(73, 101):
+for i in range(65, 72):
     sn = f"SN{i:03d}"
 
     # recording

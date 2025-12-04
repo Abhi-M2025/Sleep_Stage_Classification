@@ -5,6 +5,7 @@ from model_def import SleepStageCNN
 import glob
 import os
 
+
 class SleepDataset(Dataset):
     def __init__(self, directory="../processed"):
         self.files = glob.glob(os.path.join(directory, "*.npz"))
@@ -30,9 +31,10 @@ class SleepDataset(Dataset):
     def __getitem__(self, idx):
         return self.X[idx], self.Y[idx]
 
+
 if __name__ == "__main__":
     # Create loader
-    train_ds = SleepDataset("../processed")
+    train_ds = SleepDataset("../processed_train_data")
     train_loader = DataLoader(train_ds, batch_size=32, shuffle=True)
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -40,8 +42,10 @@ if __name__ == "__main__":
 
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
     criterion = torch.nn.CrossEntropyLoss()
+    
+    print("start training")
 
-    for epoch in range(10):
+    for epoch in range(50):
         model.train()
         total_loss = 0
 
@@ -55,7 +59,7 @@ if __name__ == "__main__":
             optimizer.step()
 
             total_loss += loss.item()
-
+        
         print(f"Epoch {epoch+1}: Loss = {total_loss / len(train_loader):.4f}")
 
     torch.save(model.state_dict(), "sleep_stage_cnn.pth")
