@@ -5,7 +5,6 @@ class SleepStageMLP_ReLU(nn.Module):
     def __init__(self, input_dim, num_of_classes, dropout):
         super(SleepStageMLP_ReLU, self).__init__()
 
-        # Define layers
         self.layer1 = nn.Linear(input_dim, 1024)
         
         self.layer2 = nn.Linear(1024, 512)
@@ -14,14 +13,11 @@ class SleepStageMLP_ReLU(nn.Module):
 
         self.out = nn.Linear(128, num_of_classes)
 
-        # Dropout layers
         self.dropout1 = nn.Dropout(0.2)
 
         self.dropout2 = nn.Dropout(0.3)
 
         self.dropout3 = nn.Dropout(0.5)
-
-        # --- Weight Initialization ---
         nn.init.kaiming_normal_(self.layer1.weight, nonlinearity='relu')
         nn.init.kaiming_normal_(self.layer2.weight, nonlinearity='relu')
         nn.init.kaiming_normal_(self.layer3.weight, nonlinearity='relu')
@@ -50,7 +46,6 @@ class SleepStageMLP_LeakyReLU(nn.Module):
         self.layer3 = nn.Linear(512, 128)
         self.out = nn.Linear(128, num_of_classes)
 
-        # LeakyReLU is used here with a specified negative_slope
         self.act = nn.LeakyReLU(negative_slope=negative_slope)
 
         self.dropout1 = nn.Dropout(0.2)
@@ -71,7 +66,6 @@ class SleepStageMLP_LeakyReLU(nn.Module):
         return self.out(x)
 
 
-#Tanh Model (Hyperbolic Tangent)
 class SleepStageMLP_Tanh(nn.Module):
     def __init__(self, input_dim, num_of_classes, dropout):
         super(SleepStageMLP_Tanh, self).__init__()
